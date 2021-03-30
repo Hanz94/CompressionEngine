@@ -6,14 +6,15 @@ import collections
 import operator
 import sys
 
+
 def read_file_line_by_line(filename):
     file1 = open(filename, 'r')
-    Lines = file1.readlines()
-    itemList = []
-    for line in Lines:
-        itemList.append(line.strip())
+    lines = file1.readlines()
+    item_list = []
+    for line in lines:
+        item_list.append(line.strip())
     file1.close()
-    return itemList
+    return item_list
 
 
 def create_dictionary(elements):
@@ -53,9 +54,9 @@ def chunk_string(string, length):
 
 
 def write_compression_to_file(compressed_code, dictionary):
-    open('somefile.txt', 'w').close()
+    open('cout.txt', 'w').close()
     compressed_entries = chunk_string(compressed_code, 32)
-    with open('somefile.txt', 'a') as the_file:
+    with open('cout.txt', 'a') as the_file:
         for i in range(len(compressed_entries)):
             the_file.write(compressed_entries[i].ljust(32, '0') + "\n")
         the_file.write('xxxx\n')
@@ -64,8 +65,8 @@ def write_compression_to_file(compressed_code, dictionary):
 
 
 def write_decompression_to_file(decompressed_code):
-    open('somefile2.txt', 'w').close()
-    with open('somefile2.txt', 'a') as the_file:
+    open('dout.txt', 'w').close()
+    with open('dout.txt', 'a') as the_file:
         for entries in decompressed_code:
             the_file.write(entries + "\n")
 
@@ -81,6 +82,7 @@ def compress():
     while code_entry_index < len(original_code):
         increment = 1
         reset_flag = False
+        compressed_entry = ''
         if previous_code_entry == original_code[code_entry_index]:
             rle_count = rle(previous_code_entry, code_entry_index, original_code)
             compressed_entry = '001' + bin(rle_count - 1)[2:].zfill(3)
